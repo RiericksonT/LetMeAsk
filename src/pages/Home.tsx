@@ -6,14 +6,19 @@ import googleLogo from '../assets/images/google-icon.svg'
 import '../styles/auth.scss'
 import { Button } from '../components/Button'
 import { auth, firebase } from '../service/firebase'
+import { AuthContext } from '../contexts/AuthContext'
 
 
 export function Home() {
   const history = useHistory();
+  const { user, signInWithGoogle } = useContext(AuthContext)
 
-
-  function handleCreateRoom() {
-    history.push('/rooms/new');
+  async function handleCreateRoom() {
+    if (!user) {
+      signInWithGoogle();
+    } else {
+      history.push('/rooms/new')
+    }
   }
 
   return (
